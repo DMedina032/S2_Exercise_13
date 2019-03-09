@@ -59,7 +59,7 @@ window.onload = init;
 
 
 var puzzleCells;
-
+var cellBackground;
 
 function init() {
       // insert the title for the first puzzle
@@ -76,6 +76,9 @@ function init() {
 
       setupPuzzle();
 }
+
+// add an event listener for the mouse up event
+document.addEventListener("mouseup", endBackground);
 
 
 function swapPuzzle(e) {
@@ -107,11 +110,32 @@ function setupPuzzle() {
 
       // set the inital color of each cell to gold
       for (var i = 0; i < puzzleCells.length; i++) {
-            puzzleCells[i].style.backgroundColor = "rgb(233, 287, 29)";
+            puzzleCells[i].style.backgroundColor = "rgb(233, 207, 29)";
+            // set the cell background color in respponce to the mousedown event
+            puzzleCells[i].onmousedown = setBackground;
       }
 }
 
+function setBackground(e) {
+      cellBackground = "rgb(101, 101, 101)";
+      e.target.style.backgroundColor = cellBackground;
+      //create an event listener for every puzzle cell
+      for (var i = 0; i < puzzleCells.length; i++) {
+            puzzleCells[i].addEventListener("mouseenter", extendBackground);
+      }
+}
 
+//create a function to extend the backgorund and seta new backgorund color
+function extendBackground(e) {
+      e.target.style.backgroundColor = cellBackground;
+}
+
+function endBackground() {
+      // remove the event listener for every puzzle cell
+      for (var i = 0; i < puzzleCells.length; i++) {
+            puzzleCells[i].removeEventListener("mouseenter", extendBackground);
+      }
+}
 
 /* ================================================================= */
 
